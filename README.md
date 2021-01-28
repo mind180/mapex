@@ -1,4 +1,4 @@
-# [LOGO place]
+# [LOGO]
 
 # roadmapex
 https://roadmapex.herokuapp.com/
