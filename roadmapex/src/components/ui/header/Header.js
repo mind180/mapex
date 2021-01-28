@@ -2,7 +2,7 @@ import React from 'react';
 import { Link } from "react-router-dom";
 import './Header.css';
 import logo from './Logo2.png';
-import MenuItem from '../custom-link/MenuItem.js';
+import MenuItem from '../menu-item/MenuItem.js';
 
 export default function Header() {
   return (
