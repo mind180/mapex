@@ -4,7 +4,7 @@ import Header from './components/ui/header/Header.js';
 import CanvasStateProvider from './components/wrappers/CanvasStateProvider.js';
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import ProfileHeader from './components/ui/profile-header/ProfileHeader.js';
-import Boards from "./components/ui/boards/Boards";
+import Dashboard from "./components/ui/dashboard/Dashboard";
 
 function App() {
   return (
@@ -13,11 +13,11 @@ function App() {
         <Header />
         <Switch>
           <Route path="/library">
-            <Boards />
+            <Dashboard />
           </Route>
           <Route path="/user">
             <ProfileHeader />
-            <Boards />
+            <Dashboard />
           </Route>
           <Route path="/">
             <CanvasStateProvider />
