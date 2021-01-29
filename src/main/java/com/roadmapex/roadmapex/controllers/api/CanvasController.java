@@ -33,21 +33,11 @@ public class CanvasController {
     return new CanvasDto(optionalCanvas.get());
   }
 
-  @PostMapping("{id}")
+  @PostMapping()
   public CanvasDto post(@RequestBody CanvasDto canvasDto) {
     Canvas canvas = new Canvas(canvasDto);
-    canvasRepository.save(canvas);
-    System.out.println(canvas);
+    Canvas createdCanvas = canvasRepository.save(canvas);
 
-    List<Node> lstNode = new ArrayList<>();
-    for (NodeDto nodeDto : canvasDto.getNodes()) {
-      Node node = new Node(nodeDto);
-      node.setCanvas(canvas);
-      lstNode.add(node);
-    }
-
-    nodeRepository.saveAll(lstNode);
-
-    return canvasDto;
+    return new CanvasDto(createdCanvas);
   }
 }

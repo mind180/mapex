@@ -28,11 +28,8 @@ public class Canvas {
   }
 
   public Canvas(CanvasDto canvasDto) {
-    this.id = UUID.fromString(canvasDto.getId());
     this.name = canvasDto.getName();
     this.description = canvasDto.getDescription();
-    this.nodes = this.getNodesFromNodeDtos(canvasDto.getNodes());
-    this.edges = this.getEdgesFromEdgeDtos(canvasDto.getEdges());
   }
 
   public Canvas(UUID id, String name, List<Node> nodes, List<Edge> edges) {
