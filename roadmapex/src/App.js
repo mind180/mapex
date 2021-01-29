@@ -2,17 +2,31 @@ import React from 'react';
 import './App.css';
 import Header from './components/ui/header/Header.js';
 import CanvasStateProvider from './components/wrappers/CanvasStateProvider.js';
+import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
+import ProfileHeader from './components/ui/profile-header/ProfileHeader.js';
+import Dashboard from "./components/ui/dashboard/Dashboard";
 
 function App() {
   return (
     <div className="App">
-      <div className="App-continer">
+      <Router>
         <Header />
-        <CanvasStateProvider />
-        <section className="comments">
-          Comments section
-        </section>
-      </div>
+        <Switch>
+          <Route path="/library">
+            <Dashboard />
+          </Route>
+          <Route path="/user">
+            <ProfileHeader />
+            <Dashboard />
+          </Route>
+          <Route path="/">
+            <CanvasStateProvider />
+            <section className="comments">
+              Comments section
+            </section>
+          </Route>
+        </Switch>
+      </Router>
     </div>
   );
 }

@@ -16,7 +16,15 @@
   cursor: pointer;
 }
 
+.header__left-nav {
+  list-style: none;
+  display: flex;
+  margin: 0;
+  padding: 0;
+}
+
 .header__item {
+  color: #dcdcdc;
   cursor: pointer;
   padding: 20px;
 }
@@ -34,7 +42,6 @@
   margin: auto;
   padding: 0 15px;
   display: flex;
-
 }
 
 .header__user-nav:hover {
@@ -44,6 +51,11 @@
 .header__user-name {
   margin: auto;
   padding: 0 5px 0 0;
+}
+
+.header__user-name a {
+  color: #dcdcdc;
+  text-decoration: none;
 }
 
 .header__user-avatar {
