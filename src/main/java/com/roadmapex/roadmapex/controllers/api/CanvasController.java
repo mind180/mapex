@@ -2,9 +2,8 @@ package com.roadmapex.roadmapex.controllers.api;
 
 import com.roadmapex.roadmapex.config.exceptions.ApiException;
 import com.roadmapex.roadmapex.dto.canvas.CanvasDto;
-import com.roadmapex.roadmapex.dto.node.NodeDto;
+import com.roadmapex.roadmapex.dto.canvas.CanvasPinDto;
 import com.roadmapex.roadmapex.model.Canvas;
-import com.roadmapex.roadmapex.model.Node;
 import com.roadmapex.roadmapex.repository.canvas.CanvasRepository;
 import com.roadmapex.roadmapex.repository.canvas.NodeRepository;
 import org.springframework.http.HttpStatus;
@@ -31,6 +30,18 @@ public class CanvasController {
       throw new ApiException(HttpStatus.NOT_FOUND, "Canvas id not found", Arrays.asList(""));
     }
     return new CanvasDto(optionalCanvas.get());
+  }
+
+  @GetMapping()
+  public List<CanvasPinDto> getAll() {
+    List<Canvas> lstCanvases = canvasRepository.findAll();
+
+    List<CanvasPinDto> canvasesDtoList = new ArrayList<>();
+    for (Canvas canvas : lstCanvases) {
+      canvasesDtoList.add(new CanvasPinDto(canvas));
+    }
+
+    return canvasesDtoList;
   }
 
   @PostMapping()
