@@ -1,16 +1,20 @@
-import React, {useState} from 'react';
+import React from 'react';
+import { useHistory } from 'react-router-dom';
 import './AddBoard.css';
 import { processEntity } from "../../../api/api";
 
 export default function AddBoard() {
+  const history = useHistory();
+
   const newCanvas = {
     name: 'Untitled',
-    description: ''
+    description: 'click to describe'
   };
 
   const createCanvas = () => {
     processEntity('POST', '/canvas', newCanvas)
-        .then(canvas => console.log(canvas))
+        .then(response => response.json())
+        .then(canvas => history.push(`canvas/${canvas.id}`))
         .catch(error => console.error(error));
   };
 
