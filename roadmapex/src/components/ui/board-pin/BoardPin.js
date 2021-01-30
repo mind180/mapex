@@ -11,11 +11,14 @@ export default function BoardPin(props) {
   };
 
   return (
-      <div className='board-pin'>
-        <div
-          className='board-pin__preview'
-          onClick={redirectToBoard}
-        >
+      <div
+        className='board-pin'
+        onClick={redirectToBoard}
+      >
+        <div className='board-pin__preview' >
+          <div className="board-pin__description">
+            {description}
+          </div>
         </div>
         <div className='board-pin__info'>
           <div className="board-pin__info-title" title={title}>
