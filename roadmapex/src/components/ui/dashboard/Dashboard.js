@@ -26,6 +26,7 @@ export default function Dashboard() {
       {boards.map(board =>
         <BoardPin
           key={board.id}
+          id={board.id}
           title={board.name}
           description={board.description}
         />
