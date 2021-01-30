@@ -4,31 +4,36 @@ import KeyStrokeHandler from  './KeyStrokeHandler.js';
 import { createNode, deleteNode, setNestedKey } from '../../services/NodeService.js'
 import { createEdge, deleteEdges, setUpdatedEdges } from '../../services/EdgeService.js';
 import { processEntity } from '../../api/api.js';
+import Loader from "../ui/loader/Loader";
 
 export default class CanvasStateProvider extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      canvasId: this.props.canvasId || 'aa4f7929-cebd-4fee-8c2d-abcd23eea40d',
+      canvasId: this.props.canvasId,
       nodes: [],
-      edges: []
+      edges: [],
+      loading: true
     }
   }
 
   componentDidMount() {
     fetch(`/canvas/${this.state.canvasId}`)
       .then(response => response.json())
-      .then(canvas => 
-        this.setState({ 
+      .then(canvas =>
+        this.setState({
           canvas: canvas,
-          nodes: canvas.nodes, 
-          edges: canvas.edges 
+          nodes: canvas.nodes,
+          edges: canvas.edges,
+          loading: false
         })
       )
       .catch(error => console.log(error));
   }
   
   render() {
+    if (this.state.loading) return <Loader/>;
+
     return (
       <div style={{backgroundColor: 'lightgrey'}}>
         <KeyStrokeHandler canvas={this.state.canvas} nodes={this.state.nodes} edges={this.state.edges} >
