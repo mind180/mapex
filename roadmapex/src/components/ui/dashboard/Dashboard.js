@@ -3,8 +3,10 @@ import AddBoard from "../add-board/AddBoard";
 import BoardPin from '../board-pin/BoardPin';
 import { processEntity } from '../../../api/api';
 import './Dashboard.css';
+import Loader from "../loader/Loader";
 
 export default function Dashboard() {
+  const [loading, setLoading] = useState(true);
   const [boards, setBoards] = useState([]);
 
   useEffect(() => {
@@ -13,12 +15,15 @@ export default function Dashboard() {
     processEntity('GET', '/canvas')
         .then(response => response.json())
         .then(boards => {
-          if (isMounted) setBoards(boards)
+          if (isMounted) setBoards(boards);
+          setLoading(false);
         })
         .catch(error => console.log(error));
 
     return () => { isMounted = false };
-  });
+  }, []);
+
+  if (loading) return <Loader/>;
 
   return(
     <div className="boards-holder">
