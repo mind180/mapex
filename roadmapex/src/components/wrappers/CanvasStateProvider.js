@@ -18,17 +18,17 @@ export default class CanvasStateProvider extends Component {
   }
 
   componentDidMount() {
-    fetch(`/canvas/${this.state.canvasId}`)
+    processEntity('GET', `/canvas/${this.state.canvasId}`)
       .then(response => response.json())
       .then(canvas =>
         this.setState({
           canvas: canvas,
           nodes: canvas.nodes,
-          edges: canvas.edges,
-          loading: false
+          edges: canvas.edges
         })
       )
-      .catch(error => console.log(error));
+      .catch(error => console.log(error))
+      .finally(() => this.setState({ loading: false }));
   }
   
   render() {
