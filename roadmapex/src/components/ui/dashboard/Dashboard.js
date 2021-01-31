@@ -16,9 +16,9 @@ export default function Dashboard() {
         .then(response => response.json())
         .then(boards => {
           if (isMounted) setBoards(boards);
-          setLoading(false);
         })
-        .catch(error => console.log(error));
+        .catch(error => console.log(error))
+        .finally(() => setLoading(false));
 
     return () => { isMounted = false };
   }, []);
