@@ -5,6 +5,7 @@ import com.roadmapex.roadmapex.dto.edge.EdgeDto;
 import com.roadmapex.roadmapex.dto.node.NodeDto;
 
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import java.util.ArrayList;
@@ -14,25 +15,23 @@ import java.util.UUID;
 @Entity
 public class Canvas {
   @Id
+  @GeneratedValue
   private UUID id;
   private String name;
   private String description;
 
   @OneToMany(mappedBy = "canvas")
-  List<Node> nodes;
+  List<Node> nodes = new ArrayList<>();
 
   @OneToMany(mappedBy = "canvas")
-  List<Edge> edges;
+  List<Edge> edges= new ArrayList<>();
 
   public Canvas() {
   }
 
   public Canvas(CanvasDto canvasDto) {
-    this.id = UUID.fromString(canvasDto.getId());
     this.name = canvasDto.getName();
     this.description = canvasDto.getDescription();
-    this.nodes = this.getNodesFromNodeDtos(canvasDto.getNodes());
-    this.edges = this.getEdgesFromEdgeDtos(canvasDto.getEdges());
   }
 
   public Canvas(UUID id, String name, List<Node> nodes, List<Edge> edges) {

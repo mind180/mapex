@@ -11,13 +11,13 @@ export async function processEntity(method, url, entities) {
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify(entities)
   })
-    .then(response => handleRespoonse(response));
+    .then(response => handleResponse(response));
 }
 
-async function handleRespoonse(response) {
+async function handleResponse(response) {
   if (response.ok) {
     return response;
   }
   const error = await response.json();
   return await Promise.reject(error);
-};
+}

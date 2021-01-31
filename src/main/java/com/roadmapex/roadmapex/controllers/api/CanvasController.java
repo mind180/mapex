@@ -2,9 +2,8 @@ package com.roadmapex.roadmapex.controllers.api;
 
 import com.roadmapex.roadmapex.config.exceptions.ApiException;
 import com.roadmapex.roadmapex.dto.canvas.CanvasDto;
-import com.roadmapex.roadmapex.dto.node.NodeDto;
+import com.roadmapex.roadmapex.dto.canvas.CanvasPinDto;
 import com.roadmapex.roadmapex.model.Canvas;
-import com.roadmapex.roadmapex.model.Node;
 import com.roadmapex.roadmapex.repository.canvas.CanvasRepository;
 import com.roadmapex.roadmapex.repository.canvas.NodeRepository;
 import org.springframework.http.HttpStatus;
@@ -33,21 +32,23 @@ public class CanvasController {
     return new CanvasDto(optionalCanvas.get());
   }
 
-  @PostMapping("{id}")
-  public CanvasDto post(@RequestBody CanvasDto canvasDto) {
-    Canvas canvas = new Canvas(canvasDto);
-    canvasRepository.save(canvas);
-    System.out.println(canvas);
+  @GetMapping()
+  public List<CanvasPinDto> getAll() {
+    List<Canvas> lstCanvases = canvasRepository.findAll();
 
-    List<Node> lstNode = new ArrayList<>();
-    for (NodeDto nodeDto : canvasDto.getNodes()) {
-      Node node = new Node(nodeDto);
-      node.setCanvas(canvas);
-      lstNode.add(node);
+    List<CanvasPinDto> canvasesDtoList = new ArrayList<>();
+    for (Canvas canvas : lstCanvases) {
+      canvasesDtoList.add(new CanvasPinDto(canvas));
     }
 
-    nodeRepository.saveAll(lstNode);
+    return canvasesDtoList;
+  }
 
-    return canvasDto;
+  @PostMapping()
+  public CanvasDto post(@RequestBody CanvasDto canvasDto) {
+    Canvas canvas = new Canvas(canvasDto);
+    Canvas createdCanvas = canvasRepository.save(canvas);
+
+    return new CanvasDto(createdCanvas);
   }
 }

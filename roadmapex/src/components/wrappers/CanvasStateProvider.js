@@ -4,30 +4,36 @@ import KeyStrokeHandler from  './KeyStrokeHandler.js';
 import { createNode, deleteNode, setNestedKey } from '../../services/NodeService.js'
 import { createEdge, deleteEdges, setUpdatedEdges } from '../../services/EdgeService.js';
 import { processEntity } from '../../api/api.js';
+import Loader from "../ui/loader/Loader";
 
 export default class CanvasStateProvider extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      canvasId: this.props.canvasId,
       nodes: [],
-      edges: []
+      edges: [],
+      loading: true
     }
   }
 
   componentDidMount() {
-    fetch('/canvas/5494c80e-c617-4120-b0a5-0a99be0df8ca')
+    processEntity('GET', `/canvas/${this.state.canvasId}`)
       .then(response => response.json())
-      .then(canvas => 
-        this.setState({ 
+      .then(canvas =>
+        this.setState({
           canvas: canvas,
-          nodes: canvas.nodes, 
-          edges: canvas.edges 
+          nodes: canvas.nodes,
+          edges: canvas.edges
         })
       )
-      .catch(error => console.log(error));
+      .catch(error => console.log(error))
+      .finally(() => this.setState({ loading: false }));
   }
   
   render() {
+    if (this.state.loading) return <Loader/>;
+
     return (
       <div style={{backgroundColor: 'lightgrey'}}>
         <KeyStrokeHandler canvas={this.state.canvas} nodes={this.state.nodes} edges={this.state.edges} >
@@ -51,7 +57,7 @@ export default class CanvasStateProvider extends Component {
   addNode(position) {
     const newNode = createNode(position);
     
-    processEntity('POST', `canvas/${this.state.canvas.id}/nodes`, [newNode])
+    processEntity('POST', `/canvas/${this.state.canvas.id}/nodes`, [newNode])
       .then(response => response.json())
       .then(nodes => this.state.nodes.concat(nodes))
       .then(nodes => this.setState({ nodes }))
@@ -59,7 +65,7 @@ export default class CanvasStateProvider extends Component {
   }
 
   deleteNode(nodeId) {
-    processEntity('DELETE', `canvas/${this.state.canvas.id}/nodes/${nodeId}`)
+    processEntity('DELETE', `/canvas/${this.state.canvas.id}/nodes/${nodeId}`)
       .then(responseOk => deleteNode(this.state.nodes, nodeId))
       .then(notDeletedNodes => this.setState({ nodes: notDeletedNodes }))
       .catch(error => console.log(error));
@@ -71,7 +77,7 @@ export default class CanvasStateProvider extends Component {
     const pathToProperty = propertyName.split(".");
     setNestedKey(node, pathToProperty, value);
 
-    processEntity('PUT', `canvas/${this.state.canvas.id}/nodes/${nodeId}`, node)
+    processEntity('PUT', `/canvas/${this.state.canvas.id}/nodes/${nodeId}`, node)
       .then(response => response.json())
       .catch(error => console.log(error));
   }
@@ -79,7 +85,7 @@ export default class CanvasStateProvider extends Component {
   addEdge(from, to) {
     const edge = createEdge(from, to);
     
-    processEntity('POST', `canvas/${this.state.canvas.id}/edges`, [edge])
+    processEntity('POST', `/canvas/${this.state.canvas.id}/edges`, [edge])
       .then(response => response.json())
       .then(edges => this.state.edges.concat(edges))
       .then(edges => this.setState({ edges }))
@@ -87,7 +93,7 @@ export default class CanvasStateProvider extends Component {
   }
 
   deleteEdges(edgeIds) {
-    processEntity('DELETE', `canvas/${this.state.canvas.id}/edges?ids=` + edgeIds.join(','))
+    processEntity('DELETE', `/canvas/${this.state.canvas.id}/edges?ids=` + edgeIds.join(','))
       .then(responseOk => deleteEdges(this.state.edges, edgeIds))
       .then(notDeletedEdges => this.setState({ edges: notDeletedEdges }))
       .catch(error => console.log(error));
@@ -97,7 +103,7 @@ export default class CanvasStateProvider extends Component {
     setUpdatedEdges(this.state.edges, mapUpdatedEdges);
 
     const updatedEdgesAsArray = Array.from(mapUpdatedEdges.values());
-    processEntity('PUT', `canvas/${this.state.canvas.id}/edges`, updatedEdgesAsArray)
+    processEntity('PUT', `/canvas/${this.state.canvas.id}/edges`, updatedEdgesAsArray)
       .catch(error => console.log(error));
   }
 }
