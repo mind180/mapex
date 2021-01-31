@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.*;
 
 @RestController
-@RequestMapping("/canvas")
+@RequestMapping("api/v1/canvas")
 public class CanvasController {
   NodeRepository nodeRepository;
   CanvasRepository canvasRepository;

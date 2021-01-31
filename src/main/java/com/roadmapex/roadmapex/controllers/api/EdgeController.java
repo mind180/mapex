@@ -13,7 +13,7 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 @RestController
-@RequestMapping("canvas/")
+@RequestMapping("api/v1/canvas/{canvasId}")
 public class EdgeController {
   private CanvasRepository canvasRepository;
   private EdgeRepository edgeRepository;
@@ -23,7 +23,7 @@ public class EdgeController {
     this.edgeRepository = edgeRepository;
   }
 
-  @PostMapping("{canvasId}/edges")
+  @PostMapping("/edges")
   public List<EdgeDto> saveEdges(@PathVariable String canvasId, @RequestBody List<EdgeDto> lstEdgesDto) {
     List<Edge> lstEdges = new ArrayList<>();
     Optional<Canvas> opCanvas = canvasRepository.findById(UUID.fromString(canvasId));
@@ -49,7 +49,7 @@ public class EdgeController {
     return lstSavedEdgesDto;
   }
 
-  @DeleteMapping("{canvasId}/edges/{edgeId}")
+  @DeleteMapping("/edges/{edgeId}")
   public void deleteById(@PathVariable String canvasId, @PathVariable String edgeId) {
     Optional<Canvas> opCanvas = canvasRepository.findById(UUID.fromString(canvasId));
 
@@ -65,7 +65,7 @@ public class EdgeController {
     }
   }
 
-  @DeleteMapping("/{canvasId}/edges")
+  @DeleteMapping("/edges")
   public void deleteAllById(@PathVariable String canvasId, @RequestParam String ids) {
     Optional<Canvas> opCanvas = canvasRepository.findById(UUID.fromString(canvasId));
 
@@ -80,7 +80,7 @@ public class EdgeController {
     edgeRepository.deleteAll(lstEdgesForDelete);
   }
 
-  @PutMapping("/{canvasId}/edges")
+  @PutMapping("/edges")
   public List<EdgeDto> update(@PathVariable String canvasId, @RequestBody List<EdgeDto> updatedEdges) {
     Optional<Canvas> opCanvas = canvasRepository.findById(UUID.fromString(canvasId));
 
