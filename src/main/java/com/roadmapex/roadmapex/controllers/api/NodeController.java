@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.*;
 
 @RestController
-@RequestMapping("canvas")
+@RequestMapping("api/v1/canvas/{canvasId}")
 public class NodeController {
   private CanvasRepository canvasRepository;
   private NodeRepository nodeRepository;
@@ -22,7 +22,7 @@ public class NodeController {
     this.nodeRepository = nodeRepository;
   }
 
-  @PostMapping("{canvasId}/nodes")
+  @PostMapping("/nodes")
   public List<NodeDto> save(@PathVariable String canvasId, @RequestBody List<NodeDto> lstNodeDto) throws Exception {
     List<Node> lstNode = new ArrayList<>();
     Optional<Canvas> opCanvas = canvasRepository.findById(UUID.fromString(canvasId));
@@ -48,7 +48,7 @@ public class NodeController {
     return lstSavedNodeDto;
   }
 
-  @DeleteMapping("{canvasId}/nodes/{nodeId}")
+  @DeleteMapping("/nodes/{nodeId}")
   public void delete(@PathVariable String canvasId, @PathVariable String nodeId) {
     Optional<Canvas> opCanvas = canvasRepository.findById(UUID.fromString(canvasId));
 
@@ -66,7 +66,7 @@ public class NodeController {
     nodeRepository.delete(nodeToDelete.get());
   }
 
-  @PutMapping("{canvasId}/nodes/{nodeId}")
+  @PutMapping("/nodes/{nodeId}")
   public NodeDto replace(@PathVariable String canvasId, @PathVariable String nodeId, @RequestBody NodeDto newNode) {
     Optional<Canvas> opCanvas = canvasRepository.findById(UUID.fromString(canvasId));
 
