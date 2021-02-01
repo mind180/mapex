@@ -10,6 +10,11 @@ public class HomeController {
   public HomeController() {
   }
 
+  @GetMapping(value = {"/library/**" , "canvas/**", "user/**"})
+  public String index() {
+    return "index";
+  }
+
   @GetMapping("/login")
   public String login() {
     return "login";
