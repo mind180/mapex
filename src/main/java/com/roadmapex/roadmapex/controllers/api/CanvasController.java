@@ -51,4 +51,16 @@ public class CanvasController {
 
     return new CanvasDto(createdCanvas);
   }
+
+  @DeleteMapping("/{canvasId}")
+  public void delete(@PathVariable String canvasId) {
+    Optional<Canvas> opCanvas = canvasRepository.findById(UUID.fromString(canvasId));
+
+    if (opCanvas.isEmpty()) {
+      throw new ApiException(HttpStatus.NOT_FOUND, "Canvas not found", Arrays.asList(""));
+    }
+
+    canvasRepository.delete(opCanvas.get());
+  }
+
 }
