@@ -13,7 +13,7 @@
   border-top-left-radius: 4px;
   border-top-right-radius: 4px;
   height: 150px;
-  padding: 10px;
+  padding: 15px 10px 10px;
   overflow: hidden;
 }
 
@@ -24,6 +24,7 @@
 }
 
 .board-pin__description {
+  position: relative;
   font-size: 14px;
   color: whitesmoke;
   display: none;
@@ -32,6 +33,21 @@
 .board-pin__preview:hover .board-pin__description {
   display: block;
 }
+
+.board-pin__menu-btn {
+  color: lightgrey;
+  position: absolute;
+  font-size: 18px;
+  font-weight: bold;
+  right: 0;
+  top: -20px;
+}
+
+.board-pin__menu-btn:hover {
+  color: white;
+  transition: font-size .3s;
+}
+
 
 .board-pin__info {
   height: 20px;
