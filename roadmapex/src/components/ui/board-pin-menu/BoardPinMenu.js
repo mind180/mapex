@@ -1,11 +1,14 @@
 import React from "react";
 import './BoardPinMenu.css';
+import {processEntity} from "../../../api/api";
 
 export default function BoardPinMenu(props) {
-  const { isOpen, canvasId } = props;
+  const { isOpen, canvasId, hideBoardPin } = props;
 
   const handleCanvasDelete = () => {
-    console.log(canvasId);
+    processEntity('DELETE', `/canvas/${canvasId}`)
+      .then(responseOk => hideBoardPin())
+      .catch(error => console.log(error));
   };
 
   return (

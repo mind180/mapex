@@ -7,6 +7,7 @@ export default function BoardPin(props) {
   const {id: canvasId, title, description} = props;
   const history = useHistory();
   const [open, setOpen] = useState(false);
+  const [deleted, setDeleted] = useState(false);
 
   const toggleMenu = (e) => {
     setOpen(!open);
@@ -14,6 +15,7 @@ export default function BoardPin(props) {
   };
 
   const closeMenu = () => setOpen(false);
+  const hideBoardPin = () => setDeleted(true);
 
   const redirectToBoard = () => {
     history.push(`/canvas/${canvasId}`);
@@ -21,6 +23,7 @@ export default function BoardPin(props) {
 
   return (
       <div className='board-pin'
+        style={{display: deleted ? "none" : "block"}}
         onClick={redirectToBoard}
       >
         <div className='board-pin__preview'
@@ -34,6 +37,7 @@ export default function BoardPin(props) {
               <BoardPinMenu
                 isOpen={open}
                 canvasId={canvasId}
+                hideBoardPin={hideBoardPin}
               />
             </div>
             {description}
