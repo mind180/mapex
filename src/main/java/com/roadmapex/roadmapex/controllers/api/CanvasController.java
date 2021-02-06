@@ -63,4 +63,17 @@ public class CanvasController {
     canvasRepository.delete(opCanvas.get());
   }
 
+  @PutMapping("/{canvasId}")
+  public void update(@PathVariable String canvasId, CanvasPinDto canvasPinDto) {
+    Optional<Canvas> opCanvas = canvasRepository.findById(UUID.fromString(canvasId));
+
+    if (opCanvas.isEmpty()) {
+      throw new ApiException(HttpStatus.NOT_FOUND, "Canvas not found", Arrays.asList(""));
+    }
+
+    opCanvas.get().setName(canvasPinDto.getName());
+    opCanvas.get().setDescription(canvasPinDto.getDescription());
+
+    canvasRepository.save(opCanvas.get());
+  }
 }
