@@ -12,16 +12,17 @@ export default function BoardPinMenu(props) {
   };
 
   return (
-    <ul
-      className="board-pin__menu"
-      style={{display: isOpen  ? "block" : "none"}}
+    <ul className="board-pin__menu"
+        style={{display: isOpen  ? "block" : "none"}}
     >
       <li className="board-pin__menu-item"
-        onClick={handleCanvasDelete}
+          onClick={handleCanvasDelete}
       >
         Delete
       </li>
-      <li className="board-pin__menu-item">Edit</li>
+      <li className="board-pin__menu-item">
+        Edit
+      </li>
     </ul>
   )
 }
