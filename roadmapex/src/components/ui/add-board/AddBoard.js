@@ -39,8 +39,9 @@ export default function AddBoard() {
         isModalOpen ?
           <Modal>
             <Modal.EditCanvas
+              okButtonName='Create'
               onCancel={closeModal}
-              onCreate={handleCreateCanvas}
+              onOk={handleCreateCanvas}
             />
           </Modal> : null
     }
