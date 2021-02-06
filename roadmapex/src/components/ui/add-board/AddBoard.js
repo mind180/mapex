@@ -14,13 +14,13 @@ export default function AddBoard() {
   const handleCreateCanvas = ({name, description}) => {
     const newCanvas = {
       name: name || 'Untitled',
-      description: description || 'click to describe'
+      description: description || 'not described yet...'
     };
 
-    createCanvas(newCanvas);
+    createCanvasAndMoveTo(newCanvas);
   };
 
-  const createCanvas = (newCanvas) => {
+  const createCanvasAndMoveTo = (newCanvas) => {
     processEntity('POST', '/canvas', newCanvas)
         .then(response => response.json())
         .then(canvas => history.push(`canvas/${canvas.id}`))
