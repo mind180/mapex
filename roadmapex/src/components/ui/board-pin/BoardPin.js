@@ -37,6 +37,8 @@ export default function BoardPin(props) {
               <BoardPinMenu
                 isOpen={open}
                 canvasId={canvasId}
+                canvasTitle={title}
+                canvasDescription={description}
                 hideBoardPin={hideBoardPin}
               />
             </div>
