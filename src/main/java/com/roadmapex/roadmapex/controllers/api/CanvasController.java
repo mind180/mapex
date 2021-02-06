@@ -64,7 +64,7 @@ public class CanvasController {
   }
 
   @PutMapping("/{canvasId}")
-  public CanvasPinDto update(@PathVariable String canvasId, @PathVariable CanvasPinDto canvasPinDto) {
+  public CanvasPinDto update(@PathVariable String canvasId, @RequestBody CanvasPinDto canvasPinDto) {
     Optional<Canvas> opCanvas = canvasRepository.findById(UUID.fromString(canvasId));
 
     if (opCanvas.isEmpty()) {
