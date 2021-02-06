@@ -4,10 +4,12 @@ import { useHistory } from 'react-router-dom';
 import BoardPinMenu from "../board-pin-menu/BoardPinMenu";
 
 export default function BoardPin(props) {
-  const {id: canvasId, title, description} = props;
+  const {id: canvasId, title: canvasTitle, description: canvasDescription} = props;
   const history = useHistory();
   const [open, setOpen] = useState(false);
   const [deleted, setDeleted] = useState(false);
+  const [title, setTitle] = useState(canvasTitle);
+  const [description, setDescription] = useState(canvasDescription);
 
   const toggleMenu = (e) => {
     setOpen(!open);
@@ -16,6 +18,11 @@ export default function BoardPin(props) {
 
   const closeMenu = () => setOpen(false);
   const hideBoardPin = () => setDeleted(true);
+
+  const updateBoardPin = (name, description) => {
+    setTitle(name);
+    setDescription(description);
+  };
 
   const redirectToBoard = () => {
     history.push(`/canvas/${canvasId}`);
@@ -40,6 +47,7 @@ export default function BoardPin(props) {
                 canvasTitle={title}
                 canvasDescription={description}
                 hideBoardPin={hideBoardPin}
+                updateBoardPin={updateBoardPin}
               />
             </div>
             {description}
