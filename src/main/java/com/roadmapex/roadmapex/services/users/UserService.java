@@ -8,5 +8,5 @@ public interface UserService {
 
   boolean isAuthenticated();
 
-  Optional<User> getUser();
+  User getUser();
 }
