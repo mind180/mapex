@@ -1,6 +1,6 @@
 package com.roadmapex.roadmapex.config.web;
 
-import com.roadmapex.roadmapex.services.canvas.users.UserDetailServiceImpl;
+import com.roadmapex.roadmapex.services.users.UserDetailServiceImpl;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
@@ -17,10 +17,6 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
   @Override
   protected void configure(final AuthenticationManagerBuilder auth) throws Exception {
-    /*auth.inMemoryAuthentication()
-        .withUser("user").password(passwordEncoder().encode("password")).roles("USER")
-        .and()
-        .withUser("admin").password(passwordEncoder().encode("password")).roles("ADMIN");*/
     auth.authenticationProvider(authenticationProvider());
   }
 
