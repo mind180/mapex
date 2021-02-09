@@ -1,4 +1,4 @@
-package com.roadmapex.roadmapex.services.canvas.users;
+package com.roadmapex.roadmapex.services.users;
 
 import com.roadmapex.roadmapex.model.Role;
 import com.roadmapex.roadmapex.model.User;
