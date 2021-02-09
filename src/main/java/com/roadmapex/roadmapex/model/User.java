@@ -22,6 +22,9 @@ public class User {
     inverseJoinColumns = @JoinColumn(name = "role_id"))
   private List<Role> roles = new ArrayList<>();
 
+  @OneToMany(mappedBy = "user")
+  private List<Canvas> canvases = new ArrayList<>();
+
   public User() {
   }
 
@@ -69,5 +72,13 @@ public class User {
 
   public void setRoles(List<Role> roles) {
     this.roles = roles;
+  }
+
+  public List<Canvas> getCanvases() {
+    return canvases;
+  }
+
+  public void setCanvases(List<Canvas> canvases) {
+    this.canvases = canvases;
   }
 }
