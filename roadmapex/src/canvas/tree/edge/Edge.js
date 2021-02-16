@@ -6,7 +6,7 @@ export default class Edge extends React.Component {
 
     const directionName = this.getDirectionName(this.props.from, this.props.to);
     const positionStyle = this.positionStyle[directionName](this.props.from, this.props.to);
-    const d = this.drowCommand[directionName](positionStyle.height, positionStyle.width);
+    const d = this.drawCommand[directionName](positionStyle.height, positionStyle.width);
 
     const style = {
       position: 'absolute',
@@ -14,7 +14,7 @@ export default class Edge extends React.Component {
       left: positionStyle.x,
       height: positionStyle.height,
       width: positionStyle.width
-    }
+    };
     
     return (
       <svg xmlns="http://www.w3.org/2000/svg" style={style}>
@@ -42,20 +42,14 @@ export default class Edge extends React.Component {
   }
 
   isRight(from, to) {
-    if (from.x < to.x) {
-      return true;
-    }
-    return false;
+    return from.x < to.x;
   }
 
   isTop(from, to) {
-    if (from.y > to.y) {
-      return true;
-    }
-    return false;
+    return from.y > to.y;
   }
 
-  drowCommand = {
+  drawCommand = {
     BottomRight: function(height, width) {
       return "M0 0 " + 
       "Q " + width / 3.5 + " 0 " +
@@ -80,7 +74,7 @@ export default class Edge extends React.Component {
       width / 2 + " " + height / 2 +
       " T " + width + " " + 0;
     }
-  }
+  };
 
   positionStyle = {
     BottomRight: function(from, to) {
@@ -115,5 +109,5 @@ export default class Edge extends React.Component {
         height: Math.floor(from.y - to.y) ? from.y - to.y : 1
       };
     }
-  }
+  };
 }
