@@ -24,10 +24,10 @@ export default class Edge extends React.Component {
   }
 
   getDirectionName(from ,to) {
-    return this.getVerticalName(from, to) + this.getHorisontalName(from, to);
+    return this.getVerticalName(from, to) + this.getHorizontalName(from, to);
   }
 
-  getHorisontalName(from, to) {
+  getHorizontalName(from, to) {
     if (this.isRight(from, to)) {
       return 'Right';
     }
