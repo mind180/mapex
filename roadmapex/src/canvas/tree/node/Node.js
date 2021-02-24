@@ -4,19 +4,20 @@ import Title from  './title/Title';
 import NodeContextMenu from '../context-menu/node-context-menu/NodeContextMenu';
 import ConnectingPoints from './connecting-points/ConnectingPoints';
 
-const minWidth = 14;
+const minWidth = 5;
 
 export default class Node extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+      rows: 1,
       width: minWidth + 'px',
       isConnectionPointsShown: false
-    }
+    };
 
     this.handleClick = this.handleClick.bind(this);
     this.handleChangeTitle = this.handleChangeTitle.bind(this);
-    this.setWidth = this.setWidth.bind(this);
+    this.setSize = this.setSize.bind(this);
     this.handleMouseEnter = this.handleMouseEnter.bind(this);
     this.handleMouseLeave = this.handleMouseLeave.bind(this);
   }
@@ -29,7 +30,7 @@ export default class Node extends React.Component {
 
   handleChangeTitle(e) {
     const inputElement = e.target;
-    this.setWidth(inputElement);
+    this.setSize(inputElement);
   }
 
   handleMouseEnter(e) {
@@ -40,11 +41,17 @@ export default class Node extends React.Component {
     this.toggleConnectiongPoints(false);
   }
 
-  setWidth(inputElement) {
-    const text = inputElement.value;
+  setSize(inputElement) {
+    const titleLines = inputElement.value.split('\n');
+    const mostLongLine = titleLines.sort((a, b) => b.length - a.length)[0];
     const fontDescription = this.getFontDescriptor(inputElement);
-    const textWidth = this.getTextWidth(text, fontDescription);
-    this.setState({ width: minWidth + textWidth + 'px' });
+    const textWidth = this.getTextWidth(mostLongLine, fontDescription);
+
+    this.setState({
+      width: minWidth + textWidth + 'px',
+      rows: titleLines.length
+    });
+
     this.props.setLastTouchedNode(inputElement.closest('.node'));
   }
 
@@ -74,7 +81,7 @@ export default class Node extends React.Component {
       backgroundColor: this.props.color,
       width: this.state.width,
       zIndex: this.props.isContextMenuOpen ? '4000' : '1000'
-    }
+    };
 
     return (
       <div data-id={this.props.id} className='node' style={style} data-allow-context-menu 
@@ -87,10 +94,12 @@ export default class Node extends React.Component {
         onMouseEnter={this.handleMouseEnter}
         onMouseLeave={this.handleMouseLeave}
       >
-        <Title text={this.props.title} 
+        <Title
+          text={this.props.title}
+          rows={this.state.rows}
+          initSize={this.setSize}
           onChangeText={this.handleChangeTitle}
-          backgroundColor={this.props.color} 
-          initWidth={this.setWidth}
+          backgroundColor={this.props.color}
           handleUpdateTitle={this.props.handleUpdateTitle}
         />
         <NodeContextMenu isOpen={this.props.isContextMenuOpen}

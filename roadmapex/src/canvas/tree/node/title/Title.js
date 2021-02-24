@@ -8,19 +8,20 @@ export default class Title extends React.Component {
   }
 
   componentDidMount() {
-    this.props.initWidth(this.inputElement.current);
+    this.props.initSize(this.inputElement.current);
   }
 
   render() {
     const style = {
       backgroundColor: this.props.backgroundColor
-    }
+    };
 
     return (
-      <input ref={this.inputElement}
-        className='node-title' 
+      <textarea ref={this.inputElement}
+        className='node-title'
+        style={style}
+        rows={this.props.rows}
         defaultValue={this.props.text}
-        style={style} 
         draggable onDragStart={e => e.preventDefault()}
         onChange={this.props.onChangeText}
         onBlur={this.props.handleUpdateTitle}
