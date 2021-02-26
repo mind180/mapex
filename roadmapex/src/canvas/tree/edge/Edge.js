@@ -2,11 +2,51 @@ import React from 'react';
 import { pathForm } from './lib/pathForm';
 import { position } from './lib/position';
 
+const defaultZIndex = '100';
+
 export default class Edge extends React.Component {
+  constructor(props) {
+    super(props);
+
+    this.handleMouseMove = this.handleMouseMove.bind(this);
+    this.handleMouseEnter = this.handleMouseEnter.bind(this);
+    this.handleMouseLeave = this.handleMouseLeave.bind(this);
+  }
+
+  handleMouseMove(e) {
+    this.raiseEdgeLayer(e.pageX - window.scrollX, e.pageY - window.scrollY);
+  };
+
+  raiseEdgeLayer(x, y) {
+    const elem = document.elementFromPoint(x, y);
+
+    if (elem.classList.contains('edge')) {
+      elem.closest('.edge-rect').style.zIndex = Number(defaultZIndex) + 10;
+      return;
+    }
+
+    if (!elem.classList.contains('edge-rect')) return;
+
+    elem.style.zIndex = defaultZIndex;
+    elem.style.visibility = 'hidden';
+
+    this.raiseEdgeLayer(x, y);
+    elem.style.visibility = 'visible';
+  }
+
+  handleMouseEnter(e) {
+    e.target.style.stroke = 'red';
+    e.target.style.cursor = 'pointer';
+  }
+
+  handleMouseLeave(e) {
+    e.target.style.stroke = 'black';
+  }
+
   render() {
     if (!this.props.isShown) return null;
 
-    const {from, to, width = 1, type = 'straight'} = this.props;
+    const {from, to, width = 1, type = 'straight', isDashed = false} = this.props;
 
     const directionName = this.getDirectionName(from, to);
 
@@ -16,14 +56,22 @@ export default class Edge extends React.Component {
       top: positionStyle.y,
       left: positionStyle.x,
       height: positionStyle.height,
-      width: positionStyle.width
+      width: positionStyle.width,
+      strokeDasharray: isDashed ? (width * 3 + " " + width * 2) : "",
+      zIndex: defaultZIndex
     };
 
-    const d = pathForm[type][directionName](positionStyle.height, positionStyle.width, width);
+    const drawPath = pathForm[type][directionName];
+    const d = drawPath(positionStyle.height, positionStyle.width, width);
 
     return (
-      <svg xmlns="http://www.w3.org/2000/svg" style={style}>
-        <path d={d} stroke="black" strokeLinecap="round" fill="transparent" strokeWidth={width}/>
+      <svg className='edge-rect' xmlns="http://www.w3.org/2000/svg" style={style}
+        onMouseMove={this.handleMouseMove}
+      >
+        <path className='edge' d={d} stroke="black" strokeWidth={width} fill="transparent" strokeLinecap="round"
+          onMouseEnter={this.handleMouseEnter}
+          onMouseLeave={this.handleMouseLeave}
+        />
       </svg>
     );
   }
@@ -32,18 +80,18 @@ export default class Edge extends React.Component {
     return this.getVerticalName(from, to) + this.getHorizontalName(from, to);
   }
 
-  getHorizontalName(from, to) {
-    if (this.isRight(from, to)) {
-      return 'Right';
-    }
-    return 'Left';
-  }
-
   getVerticalName(from, to) {
     if (this.isTop(from, to)) {
       return 'Top';
     }
     return 'Bottom';
+  }
+
+  getHorizontalName(from, to) {
+    if (this.isRight(from, to)) {
+      return 'Right';
+    }
+    return 'Left';
   }
 
   isRight(from, to) {
