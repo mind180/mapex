@@ -67,8 +67,9 @@ export default class Edge extends React.Component {
     return (
       <svg className='edge-rect' xmlns="http://www.w3.org/2000/svg" style={style}
         onMouseMove={this.handleMouseMove}
+        data-allow-context-menu
       >
-        <path className='edge' d={d} stroke="black" strokeWidth={width} fill="transparent" strokeLinecap="round"
+        <path data-allow-context-menu className='edge' d={d} stroke="black" strokeWidth={width} fill="transparent" strokeLinecap="round"
           onMouseEnter={this.handleMouseEnter}
           onMouseLeave={this.handleMouseLeave}
         />
