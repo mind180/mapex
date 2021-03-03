@@ -5,17 +5,20 @@ import Edge from './tree/edge/Edge';
 import Node from './tree/node/Node';
 import ContextMenu from './tree/context-menu/ContextMenu';
 import {increaseCanvas, decreaseCanvas, initCanvasSize, zoneSize} from './services/resize-service/ResizeService.js';
+import EdgeContextMenu from "./tree/context-menu/edge-contex-menu/EdgeContextMenu";
 
 export default class Canvas extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       isContextMenuOpen: false,
+      isEdgeMenuOpen: false,
+      edgeMenuPosition: {x: 0, y: 0},
       isEdgeCreating: false,
       isSizeInit: false,
       demoEdgeFrom: {x: 0, y: 0},
       demoEdgeTo: {x: 0, y: 0},
-    }
+    };
     
     this.canvasWrapper = React.createRef();
     this.canvasElement = React.createRef();
@@ -32,6 +35,8 @@ export default class Canvas extends React.Component {
     this.handleMouseUp = this.handleMouseUp.bind(this);
     this.handleMouseMove = this.handleMouseMove.bind(this);
     this.setLastTouchedNode = this.setLastTouchedNode.bind(this);
+    this.openEdgeContextMenu = this.openEdgeContextMenu.bind(this);
+    this.handleDeleteEdge = this.handleDeleteEdge.bind(this);
   }
 
   componentDidUpdate(prevProps, prevState) {
@@ -54,20 +59,30 @@ export default class Canvas extends React.Component {
 
   handleContextMenu(e) {
     e.preventDefault();
-    this.closeNodesContextMenu();
-    this.closeCanvasContextMenu();
+    this.closeAllContextMenu();
+
     if (!e.target.dataset.allowContextMenu) return;
+
     if (e.target.classList.contains('canvas')) {
       this.openContextMenu(this.getCursorPosition(e.pageX, e.pageY, e.target));
     }
     if (e.target.classList.contains('node')) {
       this.openNodeContextMenu(e.target.dataset.id);
     }
+    if (e.target.classList.contains('edge')) {
+      this.openEdgeContextMenu(e.target.dataset.id, e.pageX, e.pageY);
+    }
+  }
+
+  closeAllContextMenu() {
+    this.closeNodesContextMenu();
+    this.closeCanvasContextMenu();
+    this.closeEdgeContextMenu();
   }
 
   handleClick(e) {
-    this.closeNodesContextMenu();
-    this.closeCanvasContextMenu();
+    this.closeAllContextMenu();
+
     if (e.target.classList.contains('color-picker-item')) {
       const nodeId = e.target.closest('.node').dataset.id;
       this.props.onNodeChange(nodeId, "data.color", e.target.dataset.color);
@@ -135,6 +150,10 @@ export default class Canvas extends React.Component {
     this.setState({ lastDeletedNode: nodeElement });
   }
 
+  handleDeleteEdge(edgeId) {
+    this.props.onEdgeDelete([edgeId]);
+  }
+
   handleUpdateTitle(e) {
     const nodeId = e.target.closest('.node').dataset.id;
     const newTitle = e.target.value;
@@ -182,7 +201,7 @@ export default class Canvas extends React.Component {
     const demoEdgeTo = {
       x: mouseX - this.canvasElement.current.offsetLeft + this.canvasScroll.current.scrollLeft,
       y: mouseY - this.canvasElement.current.offsetTop
-    }
+    };
     this.setState({ demoEdgeTo: demoEdgeTo });
   }
 
@@ -283,6 +302,25 @@ export default class Canvas extends React.Component {
     });
   }
 
+  closeEdgeContextMenu() {
+    this.setState({
+      isEdgeMenuOpen: false
+    });
+  }
+
+  openEdgeContextMenu(edgeId, x, y) {
+    const menuPosition = {
+      x: x - this.canvasElement.current.offsetLeft + this.canvasScroll.current.scrollLeft,
+      y: y - this.canvasElement.current.offsetTop
+    };
+
+    this.setState({
+      edgeMenuPosition: menuPosition,
+      isEdgeMenuOpen: true,
+      edgeId: edgeId
+    });
+  }
+
   closeCanvasContextMenu() {
     this.setState({ isContextMenuOpen: false });
   }
@@ -296,8 +334,8 @@ export default class Canvas extends React.Component {
         <div ref={this.canvasScroll} className='canvas-scroll' style={{maxWidth: maxWidth, overflow: 'auto'}}>
           <div 
             className='canvas' 
-            style={{height: zoneSize * 3}} 
-            data-allow-context-menu 
+            style={{height: zoneSize * 3}}
+            data-allow-context-menu="true"
             ref={this.canvasElement}
             onContextMenu={this.handleContextMenu}
             onClick={this.handleClick}
@@ -310,6 +348,13 @@ export default class Canvas extends React.Component {
               positionX={this.state.contextMenuPositionX} 
               positionY={this.state.contextMenuPositionY} 
               handleClickCreateNode={this.handleClickCreateNode}
+            />
+            <EdgeContextMenu
+              edgeId={this.state.edgeId}
+              isOpen={this.state.isEdgeMenuOpen}
+              positionX={this.state.edgeMenuPosition.x}
+              positionY={this.state.edgeMenuPosition.y}
+              onDelete={this.handleDeleteEdge}
             />
             {this.props.nodes.map((node) => (
               <Node 
@@ -327,18 +372,25 @@ export default class Canvas extends React.Component {
                 setLastTouchedNode={this.setLastTouchedNode}
               />
             ))}
-            {this.props.edges.map((edge, index) => (
+            {this.props.edges.map((edge) => (
               <Edge 
-                key={edge.id} isShown={true}
-                from={edge.from} 
+                key={edge.id}
+                id={edge.id}
+                isShown={true}
+                width={1}
+                type={'curve'}
+                from={edge.from}
                 to={edge.to}
               />
             ))}
             <Edge 
               className='demo-edge' 
               isShown={this.state.isEdgeCreating}
+              type={'straight'}
+              width={1}
+              isDashed={true}
               from={this.state.demoEdgeFrom} 
-              to={this.state.demoEdgeTo} 
+              to={this.state.demoEdgeTo}
             />
           </div>
         </div>

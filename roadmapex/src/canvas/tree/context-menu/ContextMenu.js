@@ -8,7 +8,7 @@ export default class ContextMenu extends React.Component {
     const style = {
       left: this.props.positionX,
       top: this.props.positionY
-    }
+    };
 
     return (
       <div className='canvas-context-menu' style={style}>

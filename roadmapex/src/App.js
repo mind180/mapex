@@ -16,12 +16,12 @@ function App() {
           <Route path="/library">
             <Dashboard />
           </Route>
-          <Route path="/user">
-            <ProfileHeader />
-            <Dashboard />
-          </Route>
           <Route path="/canvas/:canvasId">
             <Board/>
+          </Route>
+          <Route path="/user/:userId">
+            <ProfileHeader />
+            <Dashboard />
           </Route>
           <Route path="/">
             <CanvasStateProvider canvasId='5494c80e-c617-4120-b0a5-0a99be0df8ca'  />
