@@ -9,6 +9,10 @@ export default function EdgeContextMenu(props) {
     top: props.positionY
   };
 
+  const deleteEdge = () => {
+    props.onDelete(props.edgeId);
+  };
+
   return (
       <div className="edge-context-menu" style={style}>
         <div className="menu-point">
@@ -20,7 +24,8 @@ export default function EdgeContextMenu(props) {
         <div className="menu-point">
           Color
         </div>
-        <div className="menu-point">
+        <div className="menu-point delete-edge"
+             onClick={deleteEdge}>
           Delete
         </div>
       </div>

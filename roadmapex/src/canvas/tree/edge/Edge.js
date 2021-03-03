@@ -69,9 +69,16 @@ export default class Edge extends React.Component {
         onMouseMove={this.handleMouseMove}
         data-allow-context-menu="true"
       >
-        <path data-allow-context-menu="true" className='edge' d={d} stroke="black" strokeWidth={width} fill="transparent" strokeLinecap="round"
-          onMouseEnter={this.handleMouseEnter}
-          onMouseLeave={this.handleMouseLeave}
+        <path data-id={this.props.id}
+              data-allow-context-menu="true"
+              className='edge'
+              d={d}
+              stroke="black"
+              strokeWidth={width}
+              fill="transparent"
+              strokeLinecap="round"
+              onMouseEnter={this.handleMouseEnter}
+              onMouseLeave={this.handleMouseLeave}
         />
       </svg>
     );
