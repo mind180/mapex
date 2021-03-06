@@ -37,6 +37,7 @@ export default class Canvas extends React.Component {
     this.setLastTouchedNode = this.setLastTouchedNode.bind(this);
     this.openEdgeContextMenu = this.openEdgeContextMenu.bind(this);
     this.handleDeleteEdge = this.handleDeleteEdge.bind(this);
+    this.handleChangeColor = this.handleChangeColor.bind(this);
   }
 
   componentDidUpdate(prevProps, prevState) {
@@ -82,16 +83,17 @@ export default class Canvas extends React.Component {
 
   handleClick(e) {
     this.closeAllContextMenu();
+  }
 
-    if (e.target.classList.contains('color-picker-item')) {
-      const nodeId = e.target.closest('.node').dataset.id;
-      this.props.onNodeChange(nodeId, "data.color", e.target.dataset.color);
-    }
+  handleChangeColor(nodeId, color) {
+    this.props.onNodeChange(nodeId, "data.color", color);
   }
 
   handleDragStart(e) {
     if (e.target.classList.contains('connection-point')) return;
     if (e.target.classList.contains('node-title')) return;
+    if (e.target.classList.contains('menu-point')) return;
+
     this.setOffsetInsideNode(e.pageX, e.pageY, e.target);
   }
 
@@ -369,6 +371,7 @@ export default class Canvas extends React.Component {
                 handleDragEnd={this.handleDragEnd}
                 handleDeleteNode={this.handleDeleteNode}
                 handleUpdateTitle={this.handleUpdateTitle.bind(this)}
+                onColorChange={this.handleChangeColor}
                 setLastTouchedNode={this.setLastTouchedNode}
               />
             ))}
