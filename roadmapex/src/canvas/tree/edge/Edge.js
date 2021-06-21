@@ -46,7 +46,7 @@ export default class Edge extends React.Component {
   render() {
     if (!this.props.isShown) return null;
 
-    const {from, to, width = 1, type = 'straight', isDashed = false} = this.props;
+    const {from, to, width = 1, type = 'straight', orientation = 'horizontal', isDashed = false} = this.props;
 
     const directionName = this.getDirectionName(from, to);
 
@@ -61,7 +61,7 @@ export default class Edge extends React.Component {
       zIndex: defaultZIndex
     };
 
-    const drawPath = pathForm[type][directionName];
+    const drawPath = pathForm[type][orientation][directionName];
     const d = drawPath(positionStyle.height, positionStyle.width, width);
 
     return (
@@ -77,6 +77,7 @@ export default class Edge extends React.Component {
               strokeWidth={width}
               fill="transparent"
               strokeLinecap="round"
+              strokeLinejoin="round"
               onMouseEnter={this.handleMouseEnter}
               onMouseLeave={this.handleMouseLeave}
         />

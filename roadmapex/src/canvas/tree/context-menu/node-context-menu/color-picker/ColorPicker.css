@@ -1,4 +1,5 @@
 .color-picker {
+  background-color: white;
   position: absolute;
   top: 0;
   left: 100%;
@@ -20,4 +21,13 @@
 .color-picker-item:hover {
   outline: white solid 2px;
   z-index: 2;
+}
+
+.color-picker-value {
+  border: 1px solid lightgrey;
+  color: grey;
+  margin: 1px 0 0 1px;
+  padding: 2px;
+  width: 93px;
+  height: 18px;
 }

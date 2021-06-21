@@ -6,6 +6,7 @@ export default class NodeContextMenu extends React.Component {
   constructor(props) {
     super(props);
     this.state = { isColorPickerShown: false };
+
     this.handleClick = this.handleClick.bind(this);
   }
 
@@ -24,9 +25,13 @@ export default class NodeContextMenu extends React.Component {
           onClick={this.handleClick}
           onMouseEnter={e => this.setState({isColorPickerShown: true})}
           onMouseLeave={e => this.setState({isColorPickerShown: false})}
+          draggable onDragStart={e => e.preventDefault()}
         >
           Color
-          <ColorPicker isShown={this.state.isColorPickerShown} />
+          <ColorPicker
+              isShown={this.state.isColorPickerShown}
+              color={this.props.color}
+          />
         </div>
         <div className='menu-point' onClick={this.props.handleDeleteNode}>Delete</div>
       </div>
