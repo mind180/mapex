@@ -1,72 +1,18 @@
-const curve = {
-  BottomRight: (height, width, lineWidth) => {
-    const padding = lineWidth * 0.5;
-
-    return "M0 " + padding +
-        "Q " + width / 3.5 + " 0 " +
-        width / 2 + " " + height / 2 +
-        " T " + width + " " + (height - padding);
-  },
-
-  BottomLeft: (height, width, lineWidth) => {
-    const padding = lineWidth * 0.5;
-
-    return "M" + (width - padding) + " " + padding +
-        "Q " + width / 1.5 + " 0 " +
-        width / 2 + " " + height / 2 +
-        " T " + padding + " " + (height - padding);
-  },
-
-  TopRight: (height, width, lineWidth) => {
-    const padding = lineWidth * 0.5;
-
-    return "M" + padding + " " + (height - padding) + " " +
-        "Q " + width / 3.5 + " " + height + " " +
-        width / 2 + " " + height / 2 +
-        " T " + (width - padding) + " " + padding;
-  },
-
-  TopLeft: (height, width, lineWidth) => {
-    const padding = lineWidth * 0.5;
-
-    return "M" + padding + " " + padding +
-        "Q " + width / 3.5 + " 0 " +
-        width / 2 + " " + height / 2 +
-        " T " + (width - padding) + " " + (height - padding);
-  }
-};
-
-const straight = {
-  BottomRight: (height, width, lineWidth) => {
-    const padding = 0.5 * lineWidth;
-
-    return "M" + padding + " " + padding +
-        " L" + (width - padding) +  " " + (height - padding);
-  },
-
-  BottomLeft: (height, width, lineWidth) => {
-    const padding = 0.5 * lineWidth;
-
-    return "M" + (width - padding) + " " + padding +
-        " L" + padding + " " + (height - padding);
-  },
-
-  TopRight: (height, width, lineWidth) => {
-    const padding = 0.5 * lineWidth;
-
-    return "M" + (width - padding) + " " + padding +
-        " L" + padding + " " + (height - padding);
-  },
-
-  TopLeft: (height, width, lineWidth) => {
-    const padding = 0.5 * lineWidth;
-
-    return "M" + (width - padding) + " " + (height - padding) +
-        " L" + padding + " " + padding;
-  },
-};
+import { HorizontalCurve, VerticalCurve } from './line-types/curve';
+import { HorizontalRectangular, VerticalRectangular } from './line-types/rectangular';
+import { Straight } from './line-types/straight';
 
 export const pathForm = {
-  curve,
-  straight
+  curve: {
+    horizontal: HorizontalCurve,
+    vertical: VerticalCurve
+  },
+  rectangular: {
+    horizontal: HorizontalRectangular,
+    vertical: VerticalRectangular
+  },
+  straight: {
+    horizontal: Straight,
+    vertical: Straight
+  }
 };

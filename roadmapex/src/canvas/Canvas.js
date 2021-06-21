@@ -381,7 +381,8 @@ export default class Canvas extends React.Component {
                 id={edge.id}
                 isShown={true}
                 width={1}
-                type={'curve'}
+                type={'rectangular'}
+
                 from={edge.from}
                 to={edge.to}
               />
@@ -389,7 +390,7 @@ export default class Canvas extends React.Component {
             <Edge 
               className='demo-edge' 
               isShown={this.state.isEdgeCreating}
-              type={'straight'}
+              type={'rectangular'}
               width={1}
               isDashed={true}
               from={this.state.demoEdgeFrom} 
